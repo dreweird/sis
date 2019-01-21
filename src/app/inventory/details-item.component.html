@@ -1,0 +1,9 @@
+<mat-toolbar color="primary">
+        <span>ISSUED DETAILS</span>
+    </mat-toolbar>
+    <ag-grid-angular style="width: 100%; height: 300px;" class="ag-theme-balham"
+[rowData]="rowData"
+[columnDefs]="columnDefs"
+[enableColResize]="true"
+(gridReady)="onGridReady($event)">
+</ag-grid-angular>

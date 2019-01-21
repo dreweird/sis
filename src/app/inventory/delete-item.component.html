@@ -1,0 +1,28 @@
+<div *ngIf="!cantDelete">
+    <mat-toolbar color="warn">
+        <span>DELETE ITEM</span>
+    </mat-toolbar>
+    <mat-dialog-content>
+        <p>Are you sure you want to delete this item: <b><b>{{data.data.name}}</b></b>? 
+        This action is irreversible.</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="dialogRef.close()">
+      NO</button>
+        <button mat-raised-button (click)="delete()">
+       YES</button>
+        </mat-dialog-actions>
+</div>
+<div *ngIf="cantDelete">
+    <mat-toolbar color="warn">
+        <span>DELETE ITEM</span>
+    </mat-toolbar>
+    <mat-dialog-content>
+        <p>You are not able to delete this item: <b><b>{{data.data.name}}</b></b>? 
+        Please empty first the issued items.</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="dialogRef.close()">
+      OK</button>
+        </mat-dialog-actions>
+</div>

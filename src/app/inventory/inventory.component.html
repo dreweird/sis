@@ -1,0 +1,67 @@
+<!-- <div class="margin">
+    <h2> Welcome {{name}}..</h2>
+     <button *ngIf="user_id == 1" mat-raised-button color="primary" (click)="openDialog()">ADD ITEM</button>
+    <button mat-raised-button color="accent" (click)="issueDialog()">ISSUE ITEM</button>
+    <br><br>
+    <div style="padding-bottom: 4px;">
+        <mat-form-field>
+            <input matInput  placeholder="Filename" name="fileName"  [(ngModel)]="fileName">
+        </mat-form-field>   
+    
+        <button mat-raised-button color="primary"  (click)="export()">EXPORT TO CSV</button>
+    </div><br>
+    <ag-grid-angular style="width: 100%; height: 500px; margin-left: 10px;" class="ag-theme-material"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    [enableColResize]="true"
+    [gridOptions]="gridOptions"
+    [getRowNodeId]="getRowNodeId"
+    [enableCellChangeFlash]="true"
+    [enableSorting]="true"
+    (cellClicked)="onCellClicked($event)"
+    (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+</div> -->
+
+<div class="container">
+    <div class="row item">
+        <div class="col-12" >
+            <h2>Welcome {{name}} to Inventory Dashboard</h2>
+        </div>
+      </div>
+      <div class="row item" [ngClass]="routeAnimationsElements">
+          <div class="col-md-10">
+              <em>serves as the overall inventory of seeds of the department/agency/OU</em>
+            </div>
+          <div  class="col-md-5">
+                <button *ngIf="user_id == 1" mat-raised-button color="primary" (click)="openDialog()">ADD ITEM</button>
+                <button mat-raised-button color="accent" (click)="issueDialog()">ISSUE ITEM</button>
+                <br>
+          </div>
+    
+        </div>
+        <br>
+        <div class="row item">
+            <ag-grid-angular 
+              style="width: 100%; height: 400px;" 
+              class="ag-theme-balham"
+              [gridOptions]="gridOptions"
+              [rowData]="rowData" 
+              [columnDefs]="columnDefs"
+              [autoGroupColumnDef]="autoGroupColumnDef" 
+              [components]="components" 
+              [suppressAggFuncInHeader]= "true"  
+              [groupRowAggNodes]="groupRowAggNodes"   
+              (cellClicked)="onCellClicked($event)"
+              (gridReady)="onGridReady($event)"
+         
+         
+              >
+          </ag-grid-angular>
+          <button style="margin:5px;" mat-raised-button class="information">
+                EXPORT to EXCEL
+              </button> 
+          </div>
+ 
+<br><br>
+  </div>

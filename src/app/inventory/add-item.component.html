@@ -1,0 +1,62 @@
+<mat-toolbar color="primary">
+    <span *ngIf="newItem.id">EDIT ITEM</span>
+    <span *ngIf="!newItem.id">ADD ITEM</span>
+</mat-toolbar>
+
+<form  #f="ngForm" >
+        <div class="form-group">
+                <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Category" name="category"  [(ngModel)]="newItem.category" class="form-control" required>
+                                <mat-option *ngFor="let option of selectCategory" [value]="option.name">
+                                  {{ option.name }}
+                                </mat-option>
+                              </mat-select>
+                </mat-form-field>       
+                
+                </div>
+    <div class="form-group">
+<mat-form-field class="example-full-width">
+ <input matInput placeholder="Item Name" name="name"  [(ngModel)]="newItem.name" class="form-control" required>
+</mat-form-field>       
+</div> 
+<div class="form-group">
+<mat-form-field class="example-full-width">
+        <mat-select placeholder="Unit" name="unit"  [(ngModel)]="newItem.unit" class="form-control" required>
+                <mat-option *ngFor="let option of selectOptions" [value]="option.name">
+                  {{ option.name }}
+                </mat-option>
+              </mat-select>
+</mat-form-field>       
+
+</div>
+
+<div class="form-group">
+    <mat-form-field class="example-full-width">
+        <input matInput type="number" placeholder="Taguibo" name="taguibo"  [(ngModel)]="newItem.taguibo" class="form-control" required>
+    </mat-form-field>       
+</div>
+
+
+<div class="form-group">
+    <mat-form-field class="example-full-width">
+        <input matInput type="number" placeholder="Del Monte" name="delmonte"  [(ngModel)]="newItem.delmonte" class="form-control" required>
+    </mat-form-field>       
+</div>
+
+
+<div class="form-group">
+    <mat-form-field class="example-full-width">
+        <input matInput type="number" placeholder="Trento" name="trento"  [(ngModel)]="newItem.trento" class="form-control" required>
+    </mat-form-field>       
+</div>
+
+<div class="form-group">
+        <mat-form-field class="example-full-width">
+            <input matInput type="number" placeholder="APCO-ADS" name="apco-ads"  [(ngModel)]="newItem.apcoads" class="form-control" required>
+        </mat-form-field>       
+    </div>
+         
+ <button [disabled]="!f.form.valid"  
+ mat-raised-button color="primary"  class="example-full-width" (click)="save()">SAVE</button>
+         
+    </form>

@@ -1,0 +1,48 @@
+.loginBox {
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -15em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+  
+}
+
+.center{
+    text-align: center;
+    padding: 10px 10px 10px 10px;
+    color: white;
+
+}
+
+img.bg {
+
+  min-height: 100%;
+  min-width: 1000px;
+	
+
+  width: 100%;
+  height: auto;
+	
+ 
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.background {
+  background: url('../../assets/intro.jpeg') no-repeat center center fixed; 
+  background-size: 100% 100%;
+}

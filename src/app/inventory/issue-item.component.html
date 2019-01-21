@@ -1,0 +1,99 @@
+<mat-toolbar color="primary">
+        <span>ISSUE ITEM</span>
+    </mat-toolbar>
+    <form  #f="ngForm" >
+
+        <div class="form-group">
+        <mat-form-field class="example-full-width">
+                <mat-select placeholder="Item Name" name="name"  [(ngModel)]="newIssue.name" class="form-control" required>
+                        <mat-option *ngFor="let option of items" [value]="option" [disabled]="0 >= option.onhand">
+                          {{ option.name }}  <span *ngIf="0 >= option.onhand" style="color: red">Out of Stock</span>
+                        </mat-option>
+                      </mat-select>
+        </mat-form-field>       
+        
+        </div>
+
+        <div class="form-group">
+                <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Location" name="location"  [(ngModel)]="newIssue.location" class="form-control" required>
+                                <mat-option *ngFor="let option of warehouse" [value]="option.name">
+                                  {{ option.name }}
+                                </mat-option>
+                              </mat-select>
+                </mat-form-field>       
+                
+                </div>
+        
+        <div class="form-group">
+            <mat-form-field class="example-full-width">
+                <input matInput type="number" placeholder="Quantity" name="quantity"  [(ngModel)]="newIssue.quantity" class="form-control" required>
+            </mat-form-field>       
+        </div>
+        
+        
+        <div class="form-group">
+            <mat-form-field class="example-full-width">
+                <input matInput  placeholder="Issued for" name="issueFor"  [(ngModel)]="newIssue.issueFor" class="form-control" required>
+            </mat-form-field>       
+        </div>
+
+        <div class="form-group">
+                <mat-form-field class="example-full-width">
+                    <input matInput  placeholder="Position" name="issueForPos"  [(ngModel)]="newIssue.issueForPos" class="form-control" required>
+                </mat-form-field>       
+            </div>
+
+        <div class="form-group">
+                <mat-form-field class="example-full-width">
+                    <input matInput  placeholder="Issued by" name="issueBy"  [(ngModel)]="newIssue.issueBy" class="form-control" required>
+                </mat-form-field>       
+            </div>
+
+        <div class="form-group">
+                <mat-form-field class="example-full-width">
+                    <input matInput  placeholder="Position" name="issueByPos"  [(ngModel)]="newIssue.issueByPos" class="form-control" required>
+                </mat-form-field>       
+            </div>
+            <div class="form-group">
+                    <mat-form-field class="example-full-width">
+                        <input matInput  placeholder="Approved by" name="approvedBy"  [(ngModel)]="newIssue.approvedBy" class="form-control" required>
+                    </mat-form-field>       
+                </div>
+    
+            <div class="form-group">
+                    <mat-form-field class="example-full-width">
+                        <input matInput  placeholder="Position" name="approvedByPos"  [(ngModel)]="newIssue.approvedByPos" class="form-control" required>
+                    </mat-form-field>       
+                </div>
+        
+    
+        <div class="form-group">
+                <mat-form-field class="example-full-width">
+                    <input matInput  placeholder="Received by" name="receivedBy"  [(ngModel)]="newIssue.receivedBy" class="form-control" required>
+                </mat-form-field>       
+            </div>
+
+        <div class="form-group">
+                <mat-form-field class="example-full-width">
+                    <input matInput  placeholder="Position" name="position"  [(ngModel)]="newIssue.position" class="form-control" required>
+                </mat-form-field>       
+            </div> 
+        
+        <div class="form-group">
+                    <mat-form-field class="example-full-width">
+                        <input matInput  placeholder="Office" name="office"  [(ngModel)]="newIssue.office" class="form-control" required>
+                    </mat-form-field>       
+        </div>   
+
+        <div class="form-group">
+            <mat-form-field class="example-full-width">
+                <input matInput  placeholder="Contact Number" name="contact"  [(ngModel)]="newIssue.contact" class="form-control" required>
+            </mat-form-field>       
+</div> 
+
+                 
+         <button [disabled]="!f.form.valid"  
+         mat-raised-button color="primary"  class="example-full-width" (click)="issue(newIssue)">SAVE</button>
+                 
+            </form>
