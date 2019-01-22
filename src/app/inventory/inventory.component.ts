@@ -69,7 +69,55 @@ export class InventoryComponent implements OnInit {
      console.log(this.rowData);
     })
   }
-
+  groupRowAggNodes(nodes: any) {
+    var result = {
+      taguibo: 0,
+      'qty.0': 0,
+      delmonte: 0,
+      'qty.1': 0,
+      trento: 0,
+      'qty.2': 0,
+      apcoads: 0,
+      'qty.3': 0,
+      qty: [0,0,0,0],
+      totalOnhand: 0,
+      totalIssued: 0
+    };
+    nodes.forEach(function(node: any) {
+      var data = node.group ? node.aggData : node.data;
+      if (typeof data.taguibo === "number") {
+        result.taguibo += data.taguibo;
+      }
+      if (typeof data.qty[0] === "number") {
+        result["qty.0"] += data.qty[0];
+      }
+      if (typeof data.delmonte === "number") {
+        result.delmonte += data.delmonte;
+      }
+      if (typeof data.qty[1] === "number") {
+        result["qty.1"] += data.qty[1];
+      }
+      if (typeof data.trento === "number") {
+        result.trento += data.delmonte;
+      }
+      if (typeof data.qty[2] === "number") {
+        result["qty.2"] += data.qty[2];
+      }
+      if (typeof data.apcoads === "number") {
+        result.apcoads += data.apcoads;
+      }
+      if (typeof data.qty[3] === "number") {
+        result["qty.3"] += data.qty[3];
+      }
+    });
+    result.taguibo = result.taguibo - result["qty.0"];
+    result.delmonte = result.delmonte - result["qty.1"];
+    result.trento = result.trento - result["qty.2"];
+    result.apcoads = result.apcoads - result["qty.3"];
+    result.totalOnhand = result.taguibo + result.delmonte + result.trento + result.apcoads;
+    result.totalIssued = result["qty.0"] + result["qty.1"] + result["qty.2"] + result["qty.3"];
+    return result;
+  }
 
   private createColumnDefs(){
     let hide = true;
@@ -107,8 +155,8 @@ export class InventoryComponent implements OnInit {
       ]},
       {headerName: "TOTAL", 
       children:[
-        {headerName: "On-Hand",  width: 70, type: "numericColumn", valueFormatter: this.totalOnhand},
-        {headerName: "Issued",  width: 70, type: "numericColumn", valueFormatter: this.totalIssued},
+        {headerName: "On-Hand", field: "totalOnhand", width: 70, type: "numericColumn", valueFormatter: this.totalOnhand},
+        {headerName: "Issued",  field: "totalIssued", width: 70, type: "numericColumn", valueFormatter: this.totalIssued},
       ]},
 
    
@@ -146,7 +194,7 @@ export class InventoryComponent implements OnInit {
 
 
   private taguibo(params: any) {
-    if( params.value !== undefined){
+    if( params.value && params.data !== undefined){
       let number = parseFloat(params.value);
       let issue = parseFloat(params.data.qty[0]);
       let onhand = number - issue;
@@ -156,7 +204,7 @@ export class InventoryComponent implements OnInit {
   }
 
   private delmonte(params: any) {
-    if( params.value !== undefined){
+    if( params.value && params.data !== undefined){
       let number = parseFloat(params.value);
       let issue = parseFloat(params.data.qty[1]);
       let onhand = number - issue;
@@ -166,7 +214,7 @@ export class InventoryComponent implements OnInit {
   }
 
   private trento(params:any) {
-    if( params.value !== undefined){
+    if( params.value && params.data !== undefined){
       let number = parseFloat(params.value);
       let issue = parseFloat(params.data.qty[2]);
       let onhand = number - issue;
@@ -176,7 +224,7 @@ export class InventoryComponent implements OnInit {
   }
 
   private apcoads(params: any) {
-    if( params.value !== undefined){
+    if( params.value && params.data !== undefined){
       let number = parseFloat(params.value);
       let issue = parseFloat(params.data.qty[3]);
       let onhand = number - issue;
