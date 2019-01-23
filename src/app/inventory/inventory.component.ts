@@ -57,6 +57,7 @@ export class InventoryComponent implements OnInit {
   rowSelection: any;
   autoGroupColumnDef: any;
   name = JSON.parse(localStorage.getItem("name"));
+  code = JSON.parse(localStorage.getItem("code"));
 
   onGridReady(params: any){
     this.gridApi = params.api;
@@ -64,7 +65,7 @@ export class InventoryComponent implements OnInit {
    }
 
    private createRowData() {
-    this.docService.getItem().subscribe(res => {
+    this.docService.getItem(this.code).subscribe(res => {
       this.rowData = res;
      console.log(this.rowData);
     })
