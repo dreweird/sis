@@ -19,6 +19,9 @@
                 <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-balham"
                 [rowData]="rowData"
                 [columnDefs]="columnDefs"
+                [autoGroupColumnDef]="autoGroupColumnDef" 
+                [components]="components" 
+                [suppressAggFuncInHeader]= "true" 
                 (gridReady)="onGridReady($event)">
                 </ag-grid-angular>
         

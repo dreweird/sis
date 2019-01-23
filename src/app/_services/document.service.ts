@@ -17,7 +17,6 @@ export class DocumentService {
 
 
     getItem(code){
-        console.log(code);
         let body = {code: code};
         let url = `${this.apiRoot}/item`;
         return this.http.post(url, body).map(response => response.json());
@@ -40,9 +39,10 @@ export class DocumentService {
         return this.http.post(url, issue).map(res => res.json());    
     }
 
-    issueLogs(){
+    issueLogs(code){
+        let body = {code: code};
         let url = `${this.apiRoot}/logs`;
-        return this.http.get(url).map(response => response.json());
+        return this.http.post(url, body).map(response => response.json());
     }
 
 
