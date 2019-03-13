@@ -17,6 +17,9 @@ export class LogsComponent implements OnInit {
   fileName: any;
   autoGroupColumnDef: any;
   components: any;
+  excelStyles:any;
+  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 
   code = JSON.parse(localStorage.getItem("code"));
 
@@ -27,14 +30,39 @@ export class LogsComponent implements OnInit {
         field: 'category',
         width: 120,
         rowGroup: true,
-        hide: true
+        hide: true,
+        cellClass: ['data']
       },
-      {headerName: "Date", field: "date", width: 150, pinned: 'left', cellRendererFramework: DateComponent, unSortIcon: true,},
-      {headerName: "Quantity", field: "quantity", width: 120,},
-      {headerName: "Received by", field: "receivedBy", width: 200,},
-      {headerName: "Position", field: "position", width: 200,},
-      {headerName: "Office", field: "office", width: 200,},
+      {cellClass: ['data'],headerName: "Date", field: "date", width: 150, pinned: 'left', cellRendererFramework: DateComponent, unSortIcon: true,},
+      {cellClass: ['data'],headerName: "Quantity", field: "quantity", width: 120,},
+      {cellClass: ['data'],headerName: "Received by", field: "receivedBy", width: 200,},
+      {cellClass: ['data'],headerName: "Position", field: "position", width: 200,},
+      {cellClass: ['data'],headerName: "Office", field: "office", width: 200,},
    
+  ];
+
+  this.excelStyles= [
+    {
+      id: "data",
+      font: { size:11, fontName: "Calibri", },
+      borders: {
+        borderBottom: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+        borderLeft: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+        borderRight: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+        borderTop: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+      }
+    },
+    { id: "headappend", font: { size:11, fontName: "Calibri", bold: true, }, },
+    {
+      id: "header",
+      font: { size:11, fontName: "Calibri", bold: true, },
+      borders: {
+        borderBottom: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+        borderLeft: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+        borderRight: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+        borderTop: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+      }
+    },
   ];
 
   this.autoGroupColumnDef = {
@@ -43,6 +71,7 @@ export class LogsComponent implements OnInit {
     pinned: 'left',
     width: 200,
     field: 'name',
+    cellClass: ['data'],
     cellRendererParams: {
       suppressCount: true, // turn off the row count
       innerRenderer: 'simpleCellRenderer'
@@ -63,17 +92,27 @@ export class LogsComponent implements OnInit {
    }
 
    export(){
-    let params = {
+    const params = {
       fileName: this.fileName,
+      sheetName: 'Inventory-Issuance Logs',
+      columnGroups: true,
+      customHeader: [
+        [{styleId:'headappend',data:{type:'String', value:'DEPARTMENT OF AGRICULTURE'}}],
+        [{styleId:'headappend',data:{type:'String', value:'Regional Field Office XIII'}}],
+        [{styleId:'headappend',data:{type:'String', value:'Rice Seeds Inventory Report'}}],
+        [{styleId:'headappend',data:{type:'String', value: 'RPIS v2.0 Generated as of '+this.months[new Date().getMonth()]+' '+new Date().getDate()+', '+new Date().getFullYear()}}],
+        []
+      ],
       processCellCallback: function(params){
-        if(params.column.getColId() === "date") {
-          return new Date(params.node.data.date).toISOString().slice(0,10);
+        if(params.column.colDef.field === 'date' && params.node.data){
+          return new Date(params.value);
+        }else{
+          return params.value
         }
-        return params.value;
       }
-     
     }
-    this.gridApi.exportDataAsCsv(params);
+
+    this.gridApi.exportDataAsExcel(params);
   }
 
   

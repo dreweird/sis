@@ -5,6 +5,7 @@ import {ActionComponent} from "./action.component";
 import {RemoveComponent} from "./issue-remove.component";
 import { GridOptions } from "ag-grid-community";
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../_animations/index';
+import "ag-grid-enterprise";
 
 
 class Items {
@@ -56,8 +57,10 @@ export class InventoryComponent implements OnInit {
   user_id: any;
   rowSelection: any;
   autoGroupColumnDef: any;
+  excelStyles:any;
   name = JSON.parse(localStorage.getItem("name"));
   code = JSON.parse(localStorage.getItem("code"));
+  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   onGridReady(params: any){
     this.gridApi = params.api;
@@ -70,6 +73,44 @@ export class InventoryComponent implements OnInit {
      console.log(this.rowData);
     })
   }
+
+  onBtExport(){
+    const params = {
+      fileName: 'RPIS',
+      sheetName: 'Inventory-Dashboard',
+      columnGroups: true,
+      columnKeys: ["category", "name", "unit", "taguibo", "qty.0", "delmonte", "qty.1", "trento", "qty.2", "apcoads", "qty.3", "totalOnhand", "totalIssued"],
+      customHeader: [
+        [{styleId:'headappend',data:{type:'String', value:'DEPARTMENT OF AGRICULTURE'}}],
+        [{styleId:'headappend',data:{type:'String', value:'Regional Field Office XIII'}}],
+        [{styleId:'headappend',data:{type:'String', value:'Rice Seeds Inventory Report'}}],
+        [{styleId:'headappend',data:{type:'String', value: 'RPIS v2.0 Generated as of '+this.months[new Date().getMonth()]+' '+new Date().getDate()+', '+new Date().getFullYear()}}],
+        []
+      ],
+      processCellCallback: function(params){
+        if(params.node.group && params.column.colDef.field === 'taguibo') return params.value
+        else if(params.column.colDef.field === 'taguibo' && params.node.data) return parseFloat(params.value) - parseFloat(params.node.data.qty[0]);
+        else if(params.column.colDef.field === 'delmonte' && params.node.data) return parseFloat(params.value) - parseFloat(params.node.data.qty[1]);
+        else if(params.column.colDef.field === 'trento' && params.node.data) return parseFloat(params.value) - parseFloat(params.node.data.qty[2]);
+        else if(params.column.colDef.field === 'apcoads' && params.node.data) return parseFloat(params.value) - parseFloat(params.node.data.qty[3]);
+        else if(params.column.colDef.field === 'totalOnhand' && params.node.data) {
+          let number = parseFloat(params.node.data.taguibo) + parseFloat(params.node.data.delmonte) + parseFloat(params.node.data.trento) + parseFloat(params.node.data.apcoads);
+          let issue = parseFloat(params.node.data.qty[0]) + parseFloat(params.node.data.qty[1]) + parseFloat(params.node.data.qty[2]) + parseFloat(params.node.data.qty[3]);
+          let onhand = number - issue;
+          return onhand;
+        }
+        else if(params.column.colDef.field === 'totalIssued' && params.node.data) {
+          let issue = parseFloat(params.node.data.qty[0]) + parseFloat(params.node.data.qty[1]) + parseFloat(params.node.data.qty[2]) + parseFloat(params.node.data.qty[3]);
+        return issue;
+        }
+        else
+        return params.value;
+      }
+    }
+
+    this.gridApi.exportDataAsExcel(params);
+  }
+
   groupRowAggNodes(nodes: any) {
     var result = {
       taguibo: 0,
@@ -130,34 +171,35 @@ export class InventoryComponent implements OnInit {
         field: 'category',
         width: 120,
         rowGroup: true,
-        hide: true
+        hide: true,
+        cellClass: ['data']
       },
-      {headerName: "Interventions", field: "name", width: 120, pinned: 'left', hide: true},
-      {headerName: "Unit", field: "unit", width: 70,},
-      {headerName: "Taguibo", 
+      {cellClass: ['data'], headerName: "Interventions", field: "name", width: 120, pinned: 'left', hide: true},
+      {cellClass: ['data'], headerName: "Unit", field: "unit", width: 70,},
+      {cellClass: ['data'], headerName: "Taguibo", 
       children:[
-        {headerName: "On-Hand", field: "taguibo", width: 70, type: "numericColumn", valueFormatter: this.taguibo},
-        {headerName: "Issued", field: "qty.0", width: 70, type: "numericColumn", cellStyle: {color: 'black', 'background-color': '#80CBC4'}, aggFunc: 'sum'},
+        {cellClass: ['data'], headerName: "On-Hand", field: "taguibo", width: 70, type: "numericColumn", valueFormatter: this.taguibo},
+        {cellClass: ['data'], headerName: "Issued", field: "qty.0", width: 70, type: "numericColumn", cellStyle: {color: 'black', 'background-color': '#80CBC4'}, aggFunc: 'sum'},
       ]},
-      {headerName: "Del Monte", 
+      {cellClass: ['data'], headerName: "Del Monte", 
       children:[ 
-        {headerName: "On-Hand", field: "delmonte", width: 70, type: "numericColumn", valueFormatter: this.delmonte},
-        {headerName: "Issued", field: "qty.1", width: 70, type: "numericColumn", cellStyle: {color: 'black', 'background-color': '#80CBC4'}},
+        {cellClass: ['data'], headerName: "On-Hand", field: "delmonte", width: 70, type: "numericColumn", valueFormatter: this.delmonte},
+        {cellClass: ['data'], headerName: "Issued", field: "qty.1", width: 70, type: "numericColumn", cellStyle: {color: 'black', 'background-color': '#80CBC4'}},
       ]},
-      {headerName: "Trento", 
+      {cellClass:['data'], headerName: "Trento", 
       children:[
-        {headerName: "On-Hand", field: "trento", width: 70, type: "numericColumn", valueFormatter: this.trento},
-        {headerName: "Issued", field: "qty.2", width: 70, type: "numericColumn", cellStyle: {color: 'black', 'background-color': '#80CBC4'}},
+        {cellClass:['data'], headerName: "On-Hand", field: "trento", width: 70, type: "numericColumn", valueFormatter: this.trento},
+        {cellClass:['data'], headerName: "Issued", field: "qty.2", width: 70, type: "numericColumn", cellStyle: {color: 'black', 'background-color': '#80CBC4'}},
       ]},
       {headerName: "APCO-ADS", 
       children:[
-        {headerName: "On-Hand", field: "apcoads", width: 70, type: "numericColumn", valueFormatter: this.apcoads},
-        {headerName: "Issued", field: "qty.3", width: 70, type: "numericColumn", cellStyle: {color: 'black', 'background-color': '#80CBC4'}},
+        {cellClass:['data'], headerName: "On-Hand", field: "apcoads", width: 70, type: "numericColumn", valueFormatter: this.apcoads},
+        {cellClass:['data'], headerName: "Issued", field: "qty.3", width: 70, type: "numericColumn", cellStyle: {color: 'black', 'background-color': '#80CBC4'}},
       ]},
-      {headerName: "TOTAL", 
+      {cellClass:['data'], headerName: "TOTAL", 
       children:[
-        {headerName: "On-Hand", field: "totalOnhand", width: 70, type: "numericColumn", valueFormatter: this.totalOnhand},
-        {headerName: "Issued",  field: "totalIssued", width: 70, type: "numericColumn", valueFormatter: this.totalIssued},
+        {cellClass:['data'], headerName: "On-Hand", field: "totalOnhand", width: 70, type: "numericColumn", valueFormatter: this.totalOnhand},
+        {cellClass:['data'], headerName: "Issued",  field: "totalIssued", width: 70, type: "numericColumn", valueFormatter: this.totalIssued},
       ]},
 
    
@@ -189,6 +231,29 @@ export class InventoryComponent implements OnInit {
       }
     };
     this.components = { simpleCellRenderer: getSimpleCellRenderer() };
+    this.excelStyles= [
+      {
+        id: "data",
+        font: { size:11, fontName: "Calibri", },
+        borders: {
+          borderBottom: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+          borderLeft: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+          borderRight: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+          borderTop: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+        }
+      },
+      { id: "headappend", font: { size:11, fontName: "Calibri", bold: true, }, },
+      {
+        id: "header",
+        font: { size:11, fontName: "Calibri", bold: true, },
+        borders: {
+          borderBottom: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+          borderLeft: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+          borderRight: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+          borderTop: { color: "#000000", lineStyle: "Continuous", weight: 1 },
+        }
+      },
+    ];
   }
 
 
@@ -475,8 +540,8 @@ export class DetailsDialog{
         console.log(data.items);
         for (var key in data.items) {
           var total_array = data.items.length - 1;
-          let number = parseFloat(data.items[key].taguibo) + parseFloat(data.items[key].delmonte) + parseFloat(data.items[key].trento);
-          let issue = parseFloat(data.items[key].qty[0]) + parseFloat(data.items[key].qty[1]) + parseFloat(data.items[key].qty[2]);
+          let number = parseFloat(data.items[key].taguibo) + parseFloat(data.items[key].delmonte) + parseFloat(data.items[key].trento + parseFloat(data.items[key].apcoads));
+          let issue = parseFloat(data.items[key].qty[0]) + parseFloat(data.items[key].qty[1]) + parseFloat(data.items[key].qty[2] + parseFloat(data.items[key].qty[3]));
           let onhand = number - issue;
           data.items[key].onhand = onhand;
           console.log(onhand);

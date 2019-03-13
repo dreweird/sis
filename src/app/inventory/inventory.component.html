@@ -51,14 +51,15 @@
               [autoGroupColumnDef]="autoGroupColumnDef" 
               [components]="components" 
               [suppressAggFuncInHeader]= "true"  
-              [groupRowAggNodes]="groupRowAggNodes"   
+              [groupRowAggNodes]="groupRowAggNodes"
+              [excelStyles]="excelStyles"   
               (cellClicked)="onCellClicked($event)"
               (gridReady)="onGridReady($event)"
          
          
               >
           </ag-grid-angular>
-          <button style="margin:5px;" mat-raised-button class="information">
+          <button style="margin:5px;" mat-raised-button class="information" (click)="onBtExport()">
                 EXPORT to EXCEL
               </button> 
           </div>
