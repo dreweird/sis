@@ -33,6 +33,14 @@ export class LogsComponent implements OnInit {
         hide: true,
         cellClass: ['data']
       },
+      {
+        headerName: 'PO Number',
+        field: 'PO_No',
+        width: 100,
+        rowGroup: true,
+        hide: true,
+        cellClass: ['data']
+      },
       {cellClass: ['data'],headerName: "Date", field: "date", width: 150, pinned: 'left', cellRendererFramework: DateComponent, unSortIcon: true,},
       {cellClass: ['data'],headerName: "Quantity", field: "quantity", width: 120,},
       {cellClass: ['data'],headerName: "Received by", field: "receivedBy", width: 200,},

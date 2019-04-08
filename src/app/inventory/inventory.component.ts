@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {DocumentService} from "../_services/document.service";
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
 import {ActionComponent} from "./action.component";
 import {RemoveComponent} from "./issue-remove.component";
 import { GridOptions } from "ag-grid-community";
@@ -17,6 +17,7 @@ class Items {
   delmonte: number;
   apcoads: number;
   id: number;
+  PO_No: string
 }
 
 class Issue {
@@ -171,6 +172,14 @@ export class InventoryComponent implements OnInit {
         headerName: 'Category',
         field: 'category',
         width: 120,
+        rowGroup: true,
+        hide: true,
+        cellClass: ['data']
+      },
+      {
+        headerName: 'PO',
+        field: 'PO_No',
+        width: 100,
         rowGroup: true,
         hide: true,
         cellClass: ['data']
@@ -433,7 +442,8 @@ export class AddItemDialog{
   selectOptions = [{name: "kilogram"}, {name: "bag"}, {name: "liter"}];
   constructor(
     public dialogRef: MatDialogRef<AddItemDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any,private docService: DocumentService) {
+    @Inject(MAT_DIALOG_DATA) public data: any,private docService: DocumentService,
+    private snackBar: MatSnackBar) {
       this.newItem = new Items();
       console.log(data.gridApi);
      }
@@ -441,6 +451,8 @@ export class AddItemDialog{
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  
 
   save(){
     console.log(this.newItem);
@@ -458,9 +470,10 @@ export class AddItemDialog{
         console.log(res);
         this.dialogRef.close();
         this.data.gridApi.updateRowData({ add: [item]});
-
-      }
-
+        this.snackBar.open('Successfully Added Data', 'Ok', {
+            duration: 2000,
+          });
+        }
   });
  
 

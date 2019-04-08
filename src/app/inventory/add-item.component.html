@@ -20,6 +20,11 @@
 </mat-form-field>       
 </div> 
 <div class="form-group">
+    <mat-form-field class="example-full-width">
+     <input matInput placeholder="PO Number" name="PO_No"  [(ngModel)]="newItem.PO_No" class="form-control" required>
+    </mat-form-field>       
+    </div> 
+<div class="form-group">
 <mat-form-field class="example-full-width">
         <mat-select placeholder="Unit" name="unit"  [(ngModel)]="newItem.unit" class="form-control" required>
                 <mat-option *ngFor="let option of selectOptions" [value]="option.name">

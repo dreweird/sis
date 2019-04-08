@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
 import {DocumentService} from "../_services/document.service";
 class Items {
     category: string;
@@ -62,7 +62,8 @@ export class ActionComponent {
 
     constructor(
         public dialogRef: MatDialogRef<EditDialog>,
-        @Inject(MAT_DIALOG_DATA) public data: any, private docService: DocumentService) {
+        @Inject(MAT_DIALOG_DATA) public data: any, private docService: DocumentService,
+        private snackBar: MatSnackBar) {
             console.log(data.data);
             this.newItem = data.data;
        
@@ -74,7 +75,10 @@ export class ActionComponent {
         this.docService.addItem(this.newItem).subscribe(res => {
           if(res){
             console.log(res);
-            this.dialogRef.close();  
+            this.dialogRef.close(); 
+            this.snackBar.open('Successfully Updated Data', 'Ok', {
+              duration: 2000,
+            }); 
           }
     
       });
