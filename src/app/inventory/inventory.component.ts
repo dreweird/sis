@@ -33,6 +33,7 @@ class Issue {
   contact: string;
   approvedBy: string;
   approvedByPos: string;
+  purpose: string;
 }
 
 @Component({
@@ -428,7 +429,7 @@ export class InventoryComponent implements OnInit {
 })
 export class AddItemDialog{
   newItem: Items;
-  selectCategory = [{name: "RICE"}, {name: "CORN"}, {name: "HVCDP"}, {name: "OA"}];
+  selectCategory = [{name: "RICE"}, {name: "CORN"}, {name: "HVCDP"}, {name: "OA"}, {name: "Other Inputs"}];
   selectOptions = [{name: "kilogram"}, {name: "bag"}, {name: "liter"}];
   constructor(
     public dialogRef: MatDialogRef<AddItemDialog>,
@@ -532,6 +533,7 @@ export class DetailsDialog{
     newIssue: Issue;
     items;
     warehouse = [{name: "Taguibo"}, {name: "Del Monte"}, {name: "Trento"}, {name: "APCO-ADS"}];
+    purpose = [{name: "Rehabilitation"}, {name: "Regular Assistance"}];
   
     constructor(
       public dialogRef: MatDialogRef<AddIssueDialog>,

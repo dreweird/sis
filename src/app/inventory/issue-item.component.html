@@ -15,6 +15,17 @@
         </div>
 
         <div class="form-group">
+            <mat-form-field class="example-full-width">
+                    <mat-select placeholder="Purpose" name="purpose"  [(ngModel)]="newIssue.purpose" class="form-control" required>
+                            <mat-option *ngFor="let option of purpose" [value]="option.name">
+                              {{ option.name }} 
+                            </mat-option>
+                          </mat-select>
+            </mat-form-field>       
+            
+            </div>
+
+        <div class="form-group">
                 <mat-form-field class="example-full-width">
                         <mat-select placeholder="Location" name="location"  [(ngModel)]="newIssue.location" class="form-control" required>
                                 <mat-option *ngFor="let option of warehouse" [value]="option.name">
