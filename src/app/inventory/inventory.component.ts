@@ -21,6 +21,7 @@ class Items {
 }
 
 class Issue {
+  po_no: Array<any>; 
   name: Array<any>; 
   location: string;
   quantity: number;
@@ -438,8 +439,9 @@ export class InventoryComponent implements OnInit {
 })
 export class AddItemDialog{
   newItem: Items;
-  selectCategory = [{name: "RICE"}, {name: "CORN"}, {name: "HVCDP"}, {name: "OA"}, {name: "Other Inputs"}];
-  selectOptions = [{name: "kilogram"}, {name: "bag"}, {name: "liter"}];
+  selectCategory = [{name: "RICE"}, {name: "CORN"}, {name: "HVCDP"}, {name: "OA"}, 
+  {name: "RAED RICE"}, {name: "RAED CORN"}, {name: "RAED HVCDP"}];
+  selectOptions = [{name: "kilogram"}, {name: "bag"}, {name: "liter"},  {name: "unit"}];
   constructor(
     public dialogRef: MatDialogRef<AddItemDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,private docService: DocumentService,
@@ -544,7 +546,8 @@ export class DetailsDialog{
   export class AddIssueDialog{
 
     newIssue: Issue;
-    items;
+    items: Array<any>;
+    itemGroup: Array<any>;
     warehouse = [{name: "Taguibo"}, {name: "Del Monte"}, {name: "Trento"}, {name: "APCO-ADS"}];
     purpose = [{name: "Rehabilitation"}, {name: "Regular Assistance"}];
   
@@ -552,7 +555,9 @@ export class DetailsDialog{
       public dialogRef: MatDialogRef<AddIssueDialog>,
       @Inject(MAT_DIALOG_DATA) public data: any,private docService: DocumentService) {
         this.newIssue = new Issue();
-        console.log(data.items);
+      
+
+      //  console.log(data.items);
         for (var key in data.items) {
           var total_array = data.items.length - 1;
           let number = parseFloat(data.items[key].taguibo) + parseFloat(data.items[key].delmonte) + parseFloat(data.items[key].trento + parseFloat(data.items[key].apcoads));
@@ -568,6 +573,20 @@ export class DetailsDialog{
           }
           
         }
+
+        var groups = this.items.reduce(function (obj, item){
+          obj[item.PO_No] = obj[item.PO_No] || [];
+          obj[item.PO_No].push({name: item.name, id: item.id, onhand: item.onhand, unit: item.unit});
+          return obj;
+        }, {});
+
+        this.itemGroup = Object.keys(groups).map(function(key){
+          return { po_no: key, data: groups[key]}
+        })
+
+        console.log(this.itemGroup);
+
+        
 
        }
 
@@ -677,7 +696,7 @@ export class DetailsDialog{
     <i>${item.position}, ${item.office}</i><br> ${item.contact} `);
  
    my_window.document.write('</body></html>'); 
-
+console.log(item.name);
    item.item_id = item.name.id;
    item.date = my_date;
    delete item.name; 

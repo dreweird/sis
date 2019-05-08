@@ -46,8 +46,9 @@ export class LogsComponent implements OnInit {
       {cellClass: ['data'],headerName: "Received by", field: "receivedBy", width: 200,},
       {cellClass: ['data'],headerName: "Position", field: "position", width: 200,},
       {cellClass: ['data'],headerName: "Office", field: "office", width: 200,},
-      {cellClass: ['data'],headerName: "Purpose", field: "purpose", width: 200,},
+      // {cellClass: ['data'],headerName: "Purpose", field: "purpose", width: 200,},
    
+      
   ];
 
   this.excelStyles= [

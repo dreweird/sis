@@ -4,6 +4,7 @@
     left: 50%;
     margin-top: -15em; /*set to a negative number 1/2 of your height*/
     margin-left: -15em; /*set to a negative number 1/2 of your width*/
+
   
 }
 
@@ -45,4 +46,10 @@ img.bg {
 .background {
   background: url('../../assets/intro.jpeg') no-repeat center center fixed; 
   background-size: 100% 100%;
+}
+
+mat-toolbar {
+  width: 300px;
+
+  white-space: normal;
 }

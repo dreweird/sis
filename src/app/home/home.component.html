@@ -2,7 +2,7 @@
 
   <mat-sidenav #sidenav mode="push">
       <div class="branding"><img src="assets/logo.png" />
-        <span> SI-IS</span></div>
+        <span> FOD-IDS</span></div>
           <mat-nav-list>
               <a mat-list-item *ngFor="let item of navigationSideMenu" (click)="sidenav.close()" 
               [routerLink]="['/home', item.route]"
@@ -23,7 +23,7 @@
               <img src="assets/logo.png" /></span>
           <span routerLink="" class="branding spacer center d-none d-sm-inline d-md-none"><img src="assets/logo.png" /> {{
            SI_IS }}</span>
-          <span routerLink="" class="branding spacer d-none d-md-inline"><img src="assets/logo.png" /> Seeds Inventory Information System</span>
+          <span routerLink="" class="branding spacer d-none d-md-inline"><img src="assets/logo.png" /> Field Operation Division -  Inventory Database System </span>
   
           <span class="d-none d-md-inline">
             <button mat-button class="nav-button" *ngFor="let item of menu" 
