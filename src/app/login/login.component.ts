@@ -23,8 +23,7 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, public snackBar: MatSnackBar) { }
 
   login(){
-    this.authService.login(this.logUser.username, this.logUser.password).subscribe(res=>{
-      console.log(res);
+    this.authService.login(this.logUser.username, this.logUser.password).subscribe((res: any)=>{
       if(res.length){
         localStorage.setItem('currentUser', JSON.stringify(res[0].user_id));
         localStorage.setItem('name', JSON.stringify(res[0].username));

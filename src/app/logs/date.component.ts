@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 })
 export class DateComponent {
 
-  private params: any;
+  params: any;
 
   constructor() {}
 

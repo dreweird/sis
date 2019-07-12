@@ -1,11 +1,21 @@
 .loginBox {
-    position:fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -15em; /*set to a negative number 1/2 of your height*/
-    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+  margin: auto;
+  width: 30%;
+  margin-top: 5%;
+}
 
-  
+img.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 33%;
+  min-height: 150px;
+  height: auto;
+}
+
+.logo-container {
+  clip-path: ellipse(70% 80% at 50% 20%); 
+  background-color:darkgreen;
 }
 
 .center{
@@ -15,7 +25,10 @@
 
 }
 
-img.bg {
+
+
+
+.bg {
 
   min-height: 100%;
   min-width: 1000px;
@@ -28,9 +41,16 @@ img.bg {
   position: fixed;
   top: 0;
   left: 0;
+  background-color: #b3ffff;
+
 }
 
 
+
+.image-container {
+  width: 33%;
+  opacity: 1;
+}
 
 @media screen and (max-width: 1024px) { /* Specific to this particular image */
   img.bg {
@@ -39,17 +59,21 @@ img.bg {
   }
 }
 
+@media screen and (max-width: 700px) { /* Specific to this particular image */
+  .loginBox {
+    width: 50%;
+  }
+}
+
 .example-full-width {
   width: 100%;
 }
 
-.background {
-  background: url('../../assets/intro.jpeg') no-repeat center center fixed; 
-  background-size: 100% 100%;
-}
+
 
 mat-toolbar {
   width: 300px;
+
 
   white-space: normal;
 }

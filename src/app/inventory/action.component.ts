@@ -22,7 +22,7 @@ class Items {
 })
 export class ActionComponent {
 
-  private params: any;
+  params: any;
 
   constructor(public dialog: MatDialog) {}
 

@@ -1,40 +1,47 @@
-<img src="assets/1.jpg" class="bg" alt="">
+<div class="bg">
+       
+</div>
+<div class="row">
+<div class="col">
+        <div class="logo-container">
+                <img src="assets/background.png" class="logo">
+            </div>
+</div>
+</div>
+<div class="row">
+      
+<div class="col container">
 
 <mat-card class="loginBox"> 
-
-<mat-card-content>
-
-<form  #f="ngForm" >
-<mat-toolbar color="primary"> 
-   <span>
-        Field Operation Division -  Inventory Database System 
-   </span>          
-</mat-toolbar>
+        <mat-toolbar class="example-full-width" color="primary">Please Sign in...</mat-toolbar>  
+        <form  #f="ngForm" >
         <div class="form-group">
     <mat-form-field class="example-full-width">
-    <mat-icon matPrefix><fa-icon icon="user-circle"></fa-icon></mat-icon> 
+    <mat-icon matPrefix><fa-icon icon="user-circle"></fa-icon></mat-icon>
     <input matInput placeholder="Username" name="username"  [(ngModel)]="logUser.username" class="form-control" required>
-    </mat-form-field>       
-</div> 
+    </mat-form-field>
+</div>
 <div class="form-group">
     <mat-form-field class="example-full-width">
-        <mat-icon matPrefix><fa-icon icon="key"></fa-icon></mat-icon> 
+        <mat-icon matPrefix><fa-icon icon="key"></fa-icon></mat-icon>
         <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="logUser.password" class="form-control" required>
-    </mat-form-field>       
+    </mat-form-field>
 
 </div>
-            
-    <button [disabled]="!f.form.valid"  
-    mat-raised-button color="primary"  class="example-full-width" (click)="login()">Login</button>
-            
-        </form>
-    </mat-card-content>
-    
-</mat-card> 
-       
-       
-       
 
-      
+    <button [disabled]="!f.form.valid"
+    mat-raised-button color="primary"  class="example-full-width" (click)="login()">Login</button>
+
+        </form>
+  
+
+</mat-card>
+</div>
+</div>
+
+
+
+
+
 
 

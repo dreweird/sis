@@ -7,7 +7,8 @@
 
         <div class="form-group">
         <mat-form-field class="example-full-width">
-            <mat-select placeholder="Item Name" name="name"  [(ngModel)]="newIssue.name" class="form-control" required>
+            <mat-select placeholder="Item Name" name="name"  [(ngModel)]="newIssue.name" class="form-control" 
+            (selectionChange)="locationFilter(newIssue.name)" required>
                 <mat-optgroup *ngFor="let group of itemGroup" [label]="group.po_no" [disabled]="group.disabled">
                 <mat-option *ngFor="let data of group.data" [value]="data" [disabled]="0 >= data.onhand">
                     {{ data.name }}  <span *ngIf="0 >= data.onhand" style="color: red">Out of Stock</span>
@@ -30,20 +31,23 @@
             </div> -->
 
         <div class="form-group">
-                <mat-form-field class="example-full-width">
-                        <mat-select placeholder="Location" name="location"  [(ngModel)]="newIssue.location" class="form-control" required>
-                                <mat-option *ngFor="let option of warehouse" [value]="option.name">
-                                  {{ option.name }}
-                                </mat-option>
-                              </mat-select>
-                </mat-form-field>       
+            <mat-form-field class="example-full-width">
+                    <mat-select placeholder="Location" name="location"  [(ngModel)]="newIssue.location" class="form-control" required>
+                            <mat-option *ngFor="let option of selecteWarehouse" [value]="option.name" [disabled]="0 >= option.original_stock">
+                                {{ option.name }}
+                            </mat-option>
+                            </mat-select>
+            </mat-form-field>       
                 
-                </div>
+        </div>
         
         <div class="form-group">
+            <span>Available onhand stock:<b> {{onhand}} </b> </span>
             <mat-form-field class="example-full-width">
                 <input autocomplete="on" matInput type="number" placeholder="Quantity" name="quantity"  [(ngModel)]="newIssue.quantity" class="form-control" required>
-            </mat-form-field>       
+                <!-- <mat-error > Not allowed to issue more than onhand stock!</mat-error>   -->
+            </mat-form-field>    
+               
         </div>
         
         

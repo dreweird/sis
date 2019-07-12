@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { DocumentService, AuthService } from './_services/index';
 import { SharedModule } from '@app/shared';
 
@@ -50,7 +50,7 @@ import {AnimationsService } from './_animations/index';
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     AgGridModule.withComponents([DateComponent, ActionComponent, RemoveComponent]),
     SharedModule
   

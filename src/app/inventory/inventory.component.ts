@@ -10,6 +10,7 @@ import "ag-grid-enterprise";
 
 class Items {
   category: string;
+  PO_No: string
   name: string;
   unit: string;
   taguibo: number;
@@ -17,11 +18,11 @@ class Items {
   delmonte: number;
   apcoads: number;
   id: number;
-  PO_No: string
+
 }
 
 class Issue {
-  po_no: Array<any>; 
+  po_no: Array<any>;
   name: Array<any>; 
   location: string;
   quantity: number;
@@ -48,9 +49,9 @@ export class InventoryComponent implements OnInit {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
 
-  private gridOptions: GridOptions;
-  private columnDefs: any[];
-  private rowData: any[];
+  gridOptions: GridOptions;
+  columnDefs: any[];
+  rowData: any[];
   components: any;
 
   gridApi: any;
@@ -71,7 +72,7 @@ export class InventoryComponent implements OnInit {
    }
 
    private createRowData() {
-    this.docService.getItem(this.code).subscribe(res => {
+    this.docService.getItem(this.code).subscribe((res: any) => {
       this.rowData = res;
      console.log(this.rowData);
     })
@@ -447,7 +448,7 @@ export class AddItemDialog{
     @Inject(MAT_DIALOG_DATA) public data: any,private docService: DocumentService,
     private snackBar: MatSnackBar) {
       this.newItem = new Items();
-      console.log(data.gridApi);
+      console.log(this.newItem);
      }
 
   onNoClick(): void {
@@ -548,11 +549,13 @@ export class DetailsDialog{
     newIssue: Issue;
     items: Array<any>;
     itemGroup: Array<any>;
-    warehouse = [{name: "Taguibo"}, {name: "Del Monte"}, {name: "Trento"}, {name: "APCO-ADS"}];
+    onhand: number;
+    warehouse: {name: string, original_stock: number }[];
+    selecteWarehouse: Array<any>;
     purpose = [{name: "Rehabilitation"}, {name: "Regular Assistance"}];
   
     constructor(
-      public dialogRef: MatDialogRef<AddIssueDialog>,
+      public dialogRef: MatDialogRef<AddIssueDialog>, public snackBar: MatSnackBar,
       @Inject(MAT_DIALOG_DATA) public data: any,private docService: DocumentService) {
         this.newIssue = new Issue();
       
@@ -564,9 +567,13 @@ export class DetailsDialog{
           let issue = parseFloat(data.items[key].qty[0]) + parseFloat(data.items[key].qty[1]) + parseFloat(data.items[key].qty[2] + parseFloat(data.items[key].qty[3]));
           let onhand = number - issue;
           data.items[key].onhand = onhand;
-          console.log(onhand);
-          console.log(total_array);
-          console.log(key);
+          this.warehouse = [ 
+            { "name": "Taguibo", "original_stock": data.items[key].taguibo},
+            { "name": "Del Monte", "original_stock": data.items[key].delmonte},
+            { "name": "Trento", "original_stock": data.items[key].trento},
+            { "name": "APCO-ADS", "original_stock": data.items[key].apcoads},
+          ]
+          data.items[key].warehouse = this.warehouse;             
           if(parseInt(key) == total_array){
             console.log(data.items);
             this.items = data.items;
@@ -576,7 +583,7 @@ export class DetailsDialog{
 
         var groups = this.items.reduce(function (obj, item){
           obj[item.PO_No] = obj[item.PO_No] || [];
-          obj[item.PO_No].push({name: item.name, id: item.id, onhand: item.onhand, unit: item.unit});
+          obj[item.PO_No].push({name: item.name, id: item.id, onhand: item.onhand, unit: item.unit, warehouse: item.warehouse});
           return obj;
         }, {});
 
@@ -590,11 +597,26 @@ export class DetailsDialog{
 
        }
 
+    locationFilter(item: any){
+      console.log(item);
+      this.onhand = item.onhand;
+      this.selecteWarehouse = item.warehouse;
+    }
+
     onNoClick(): void {
       this.dialogRef.close();
     }
   
   issue(item){
+
+    if(item.quantity > this.onhand) {
+      this.snackBar.open('Not allowed to issue more than ' + this.onhand, 'Please try again', {
+        duration: 2000,
+      });
+      
+    }else{
+
+
     let my_date=new Date();
     let monthname=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
   
@@ -709,6 +731,7 @@ console.log(item.name);
     })  
   
     }
+  }
   }
 
 

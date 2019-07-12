@@ -15,8 +15,7 @@ import { environment as env } from '@env/environment';
 export class HomeComponent implements OnInit {
 
   isProd = env.production;
-  envName = env.envName;
-  version = env.versions.app;
+
 
   menu: any[] = [
     {
